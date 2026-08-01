@@ -8,18 +8,18 @@ export default function Hero() {
 
   return (
     <section
-      style={{ backgroundImage: "url('/geedbicbr.png')" }}
+     style={{ backgroundImage: "url('geedbicbr.png')" }}
       className="relative h-[90vh] w-full bg-cover bg-center flex items-center"
     >
       <div className="max-w-7xl mx-auto px-6 w-full">
-        <div className="max-w-md md:max-w-lg lg:max-w-xl">
-          <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+        <div className="w-full text-center">
+          <h1 className="text-black text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
             {t("hero", "headline")}
           </h1>
-          <p className="mt-6 text-lg md:text-xl text-white/90">
+          <p className="mt-6 text-lg md:text-xl text-black/80">
             {t("hero", "subheadline")}
           </p>
-          <div className="mt-8">
+          <div className="mt-8 flex justify-center">
             <Link
               href="/request"
               className="inline-block rounded-xl bg-orange-500 px-8 py-4 font-semibold text-white transition hover:bg-sky-600"

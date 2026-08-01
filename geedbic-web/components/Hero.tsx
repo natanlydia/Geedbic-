@@ -16,7 +16,7 @@ export default function Hero() {
           <h1 className="text-black text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
             {t("hero", "headline")}
           </h1>
-          <p className="mt-6 text-lg md:text-xl text-black/80">
+          <p className="mt-6 text-xl md:text-2xl text-black/80">
             We advance your business with strategic and winning solutions<br />
             through careful analysis and professional consulting services.
           </p>

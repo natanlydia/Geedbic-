@@ -8,7 +8,7 @@ export default function Hero() {
 
   return (
     <section
-      style={{ backgroundImage: "url('/geedbicbr.png')" }}
+     style={{ backgroundImage: "url('geedbicbr.png')" }}
       className="relative h-[90vh] w-full bg-cover bg-center flex items-center"
     >
       <div className="max-w-7xl mx-auto px-6 w-full">

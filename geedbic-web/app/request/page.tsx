@@ -1,12 +1,10 @@
-
+import { Suspense } from "react";
 import RequestQuotePage from "@/components/request/RequestPage";
 
-export default function About() {
+export default function RequestPage() {
   return (
-    <>
-      
-      <RequestQuotePage/>
-     
-    </>
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center text-gray-500">Loading...</div>}>
+      <RequestQuotePage />
+    </Suspense>
   );
 }

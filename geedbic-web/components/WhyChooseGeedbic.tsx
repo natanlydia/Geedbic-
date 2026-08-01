@@ -1,80 +1,47 @@
+"use client";
+
 import { BarChart3, Network, DollarSign, Users } from "lucide-react";
+import { useLanguage } from "@/src/context/LanguageContext";
 
 export default function WhyChooseGeedbic() {
+  const { t } = useLanguage();
+
+  const cards = [
+    { icon: BarChart3, color: "bg-indigo-50 text-indigo-600", titleKey: "card1Title", descKey: "card1Desc" },
+    { icon: Network,   color: "bg-emerald-50 text-emerald-600", titleKey: "card2Title", descKey: "card2Desc" },
+    { icon: DollarSign,color: "bg-amber-50 text-amber-600",   titleKey: "card3Title", descKey: "card3Desc" },
+    { icon: Users,     color: "bg-indigo-50 text-indigo-600", titleKey: "card4Title", descKey: "card4Desc" },
+  ];
+
   return (
     <section className="w-full bg-white py-20">
       <div className="mx-auto max-w-7xl px-6">
-
-        {/* Section Heading */}
         <div className="mb-14 text-center">
           <h2 className="text-3xl font-bold text-gray-900 md:text-4xl">
-            Why Choose GEEDBIC
+            {t("why", "heading")}
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-gray-600">
-            We help organizations transform under the most complex, challenging,
-            and high-stake circumstances to achieve their ambitions.
+            {t("why", "subheading")}
           </p>
         </div>
 
-        {/* Cards Grid */}
         <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 items-stretch">
-
-          {/* Card 1 */}
-          <div className="group rounded-2xl border border-orange-200 bg-white p-8 text-center shadow-sm transition hover:-translate-y-2 hover:shadow-lg hover:shadow-blue-600/30">
-            <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
-              <BarChart3 size={28} />
+          {cards.map(({ icon: Icon, color, titleKey, descKey }) => (
+            <div
+              key={titleKey}
+              className="group rounded-2xl border border-orange-200 bg-white p-8 text-center shadow-sm transition hover:-translate-y-2 hover:shadow-lg hover:shadow-blue-600/30"
+            >
+              <div className={`mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-xl ${color}`}>
+                <Icon size={28} />
+              </div>
+              <h3 className="mb-3 text-xl font-semibold text-gray-900">
+                {t("why", titleKey)}
+              </h3>
+              <p className="text-gray-700 leading-relaxed">
+                {t("why", descKey)}
+              </p>
             </div>
-            <h3 className="mb-3 text-xl font-semibold text-gray-900">
-              Proven Methodologies
-            </h3>
-            <p className="text-gray-700 leading-relaxed">
-              We apply proven methodologies to uncover core business challenges
-              and deliver practical, result-driven solutions.
-            </p>
-          </div>
-
-          {/* Card 2 */}
-          <div className="group rounded-2xl border border-orange-200 bg-white p-8 text-center shadow-sm transition hover:-translate-y-2 hover:shadow-lg hover:shadow-blue-600/30">
-            <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
-              <Network size={28} />
-            </div>
-            <h3 className="mb-3 text-xl font-semibold text-gray-900">
-              Extensive Networks
-            </h3>
-            <p className="text-gray-700 leading-relaxed">
-              We leverage strong networks to connect you with partners,
-              investors, and opportunities that accelerate growth.
-            </p>
-          </div>
-
-          {/* Card 3 */}
-          <div className="group rounded-2xl border border-orange-200 bg-white p-8 text-center shadow-sm transition hover:-translate-y-2 hover:shadow-lg hover:shadow-blue-600/30">
-            <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
-              <DollarSign size={28} />
-            </div>
-            <h3 className="mb-3 text-xl font-semibold text-gray-900">
-              Detailed Reports
-            </h3>
-            <p className="text-gray-700 leading-relaxed">
-              We provide clear reports, value gap analysis, and actionable plans
-              that are ready for execution.
-            </p>
-          </div>
-
-          {/* Card 4 */}
-          <div className="group rounded-2xl border border-orange-200 bg-white p-8 text-center shadow-sm transition hover:-translate-y-2 hover:shadow-lg hover:shadow-blue-600/30">
-            <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
-              <Users size={28} />
-            </div>
-            <h3 className="mb-3 text-xl font-semibold text-gray-900">
-              Customer-Oriented Services
-            </h3>
-            <p className="text-gray-700 leading-relaxed">
-              We deliver tailored support across consulting, finance, marketing,
-              and operations to maximize long-term value.
-            </p>
-          </div>
-
+          ))}
         </div>
       </div>
     </section>

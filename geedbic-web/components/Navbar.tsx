@@ -3,41 +3,38 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
-const links = [
-  { label: "Home", href: "/" },
-  { label: "About Us", href: "/about" },
-  { label: "Services", href: "/service" },
-  { label: "News and Articles", href: "/news" },
-  { label: "Contact Us", href: "/contact" },
-];
+import { useLanguage } from "@/src/context/LanguageContext";
+import LanguageToggle from "@/components/LanguageToggle";
 
 export default function Navbar() {
+  const { t } = useLanguage();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 0);
-    };
-
+    const handleScroll = () => setScrolled(window.scrollY > 0);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const links = [
+    { label: t("nav", "home"),     href: "/" },
+    { label: t("nav", "about"),    href: "/about" },
+    { label: t("nav", "services"), href: "/service" },
+    { label: t("nav", "news"),     href: "/news" },
+    { label: t("nav", "contact"),  href: "/contact" },
+  ];
+
   return (
     <header
-      className={`
-        sticky top-0 z-50 w-full transition-all duration-300
-        ${
-          scrolled
-            ? "bg-white/50 backdrop-blur-md border-b border-gray-100 shadow-sm"
-            : "bg-white"
-        }
-      `}
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        scrolled
+          ? "bg-white/50 backdrop-blur-md border-b border-gray-100 shadow-sm"
+          : "bg-white"
+      }`}
     >
       <nav className="max-w-7xl mx-auto px-8">
-        <div className="grid h-24 items-center grid-cols-[auto_1fr_auto]">
+        <div className="grid h-24 items-center grid-cols-[auto_1fr_auto] gap-4">
 
           {/* Logo */}
           <Link
@@ -53,29 +50,20 @@ export default function Navbar() {
               priority
               className="transition-transform duration-300 ease-out group-hover:scale-110"
             />
-            <span className="text-2xl font-bold text-black">
-              Geedbic
-            </span>
+            <span className="text-2xl font-bold text-black">Geedbic</span>
           </Link>
 
           {/* Desktop Links */}
-          <ul
-            className="
-              hidden lg:flex justify-center gap-12
-              xl:pl-16 2xl:pl-32
-            "
-          >
+          <ul className="hidden lg:flex justify-center gap-12 xl:pl-16 2xl:pl-32">
             {links.map((item) => (
-              <li key={item.label}>
+              <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="
-                    relative text-black text-lg font-medium pb-1
+                  className="relative text-black text-lg font-medium pb-1
                     after:absolute after:left-0 after:bottom-0
                     after:h-[3px] after:w-0 after:bg-blue-600
                     after:transition-all after:duration-300
-                    hover:after:w-full
-                  "
+                    hover:after:w-full"
                 >
                   {item.label}
                 </Link>
@@ -83,16 +71,19 @@ export default function Navbar() {
             ))}
           </ul>
 
-          {/* Hamburger */}
-          <div className="ml-auto lg:hidden">
+          {/* Right side: language toggle + hamburger */}
+          <div className="flex items-center gap-3">
+            <LanguageToggle />
+
+            {/* Hamburger (mobile only) */}
             <button
               onClick={() => setOpen(!open)}
               aria-label="Toggle Menu"
-              className="flex flex-col gap-1"
+              className="flex flex-col gap-1 lg:hidden"
             >
-              <span className="w-7 h-[2px] bg-black"></span>
-              <span className="w-7 h-[2px] bg-black"></span>
-              <span className="w-7 h-[2px] bg-black"></span>
+              <span className="w-7 h-[2px] bg-black" />
+              <span className="w-7 h-[2px] bg-black" />
+              <span className="w-7 h-[2px] bg-black" />
             </button>
           </div>
         </div>
@@ -102,14 +93,11 @@ export default function Navbar() {
           <div className="lg:hidden mt-4 rounded-lg border border-gray-200 bg-white shadow-md">
             <ul className="flex flex-col divide-y">
               {links.map((item) => (
-                <li key={item.label}>
+                <li key={item.href}>
                   <Link
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    className="
-                      block px-6 py-4 text-lg font-medium text-black
-                      hover:bg-blue-50 hover:text-blue-600 transition
-                    "
+                    className="block px-6 py-4 text-lg font-medium text-black hover:bg-blue-50 hover:text-blue-600 transition"
                   >
                     {item.label}
                   </Link>

@@ -3,6 +3,12 @@ import { apiFetch } from "@/lib/api";
 
 type ArticlesResponse = {
   articles: NewsPost[];
+  pagination?: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
 };
 
 type ArticleResponse = {
@@ -22,15 +28,27 @@ function sortPosts(posts: NewsPost[]) {
   });
 }
 
-export async function getAllArticles() {
+export async function getAllArticles(options?: {
+  page?: number;
+  limit?: number;
+  category?: string;
+  search?: string;
+}) {
   try {
-    const payload = await apiFetch<ArticlesResponse>("/articles");
+    const params = new URLSearchParams();
+    if (options?.page) params.set("page", String(options.page));
+    if (options?.limit) params.set("limit", String(options.limit));
+    if (options?.category) params.set("category", options.category);
+    if (options?.search) params.set("search", options.search);
+
+    const query = params.toString() ? `?${params.toString()}` : "";
+    const payload = await apiFetch<ArticlesResponse>(`/articles${query}`);
 
     if (payload.articles.length > 0) {
       return payload.articles;
     }
   } catch {
-    // Fall back to bundled content when the API is not reachable yet.
+    // Fall back to bundled content when the API is not reachable.
   }
 
   return sortPosts(newsPosts);
@@ -38,10 +56,7 @@ export async function getAllArticles() {
 
 export async function getArticleBySlug(slug: string) {
   try {
-    const payload = await apiFetch<ArticleResponse>(
-      `/articles/${slug}`,
-    );
-
+    const payload = await apiFetch<ArticleResponse>(`/articles/${slug}`);
     return payload.article;
   } catch {
     return newsPosts.find((post) => post.slug === slug) ?? null;

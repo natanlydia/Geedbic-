@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-
+import { useLanguage } from "@/src/context/LanguageContext";
 import { newsPosts } from "@/data/news";
 
 const posts = newsPosts.slice(0, 4).map((post) => ({
@@ -19,6 +19,7 @@ const slides = [
 ];
 
 export default function BlogPreview() {
+  const { t } = useLanguage();
   const [index, setIndex] = useState(2);
   const [animate, setAnimate] = useState(true);
   const [visibleItems, setVisibleItems] = useState(1);
@@ -28,10 +29,7 @@ export default function BlogPreview() {
   const pause = 3500;
 
   useEffect(() => {
-    const updateVisibleItems = () => {
-      setVisibleItems(window.innerWidth >= 768 ? 2 : 1);
-    };
-
+    const updateVisibleItems = () => setVisibleItems(window.innerWidth >= 768 ? 2 : 1);
     updateVisibleItems();
     window.addEventListener("resize", updateVisibleItems);
     return () => window.removeEventListener("resize", updateVisibleItems);
@@ -42,53 +40,35 @@ export default function BlogPreview() {
   };
 
   useEffect(() => {
-    intervalRef.current = setInterval(() => {
-      setIndex((current) => current + 1);
-    }, pause);
-
+    intervalRef.current = setInterval(() => setIndex((c) => c + 1), pause);
     return stopAuto;
   }, []);
 
   useEffect(() => {
     if (index === posts.length + 2) {
-      setTimeout(() => {
-        setAnimate(false);
-        setIndex(2);
-      }, slideDuration);
+      setTimeout(() => { setAnimate(false); setIndex(2); }, slideDuration);
     }
-
     if (index === 1) {
-      setTimeout(() => {
-        setAnimate(false);
-        setIndex(posts.length + 1);
-      }, slideDuration);
+      setTimeout(() => { setAnimate(false); setIndex(posts.length + 1); }, slideDuration);
     }
   }, [index]);
 
   useEffect(() => {
     if (!animate) {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          setAnimate(true);
-        });
-      });
+      requestAnimationFrame(() => requestAnimationFrame(() => setAnimate(true)));
     }
   }, [animate]);
 
   const next = () => {
     stopAuto();
-    setIndex((current) => current + 1);
-    intervalRef.current = setInterval(() => {
-      setIndex((current) => current + 1);
-    }, pause);
+    setIndex((c) => c + 1);
+    intervalRef.current = setInterval(() => setIndex((c) => c + 1), pause);
   };
 
   const prev = () => {
     stopAuto();
-    setIndex((current) => current - 1);
-    intervalRef.current = setInterval(() => {
-      setIndex((current) => current + 1);
-    }, pause);
+    setIndex((c) => c - 1);
+    intervalRef.current = setInterval(() => setIndex((c) => c + 1), pause);
   };
 
   return (
@@ -96,24 +76,18 @@ export default function BlogPreview() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="mb-8 text-center md:mb-12">
           <h2 className="text-2xl font-bold text-gray-900 md:text-4xl">
-            News & Articles
+            {t("blog", "heading")}
           </h2>
           <p className="mt-2 text-sm text-gray-600 md:mt-4 md:text-base">
-            Insights and expert opinions from GEEDBIC
+            {t("blog", "subheading")}
           </p>
         </div>
 
         <div className="group relative">
           <div className="overflow-hidden">
             <div
-              className={`flex ${
-                animate
-                  ? "transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]"
-                  : ""
-              }`}
-              style={{
-                transform: `translateX(-${index * (100 / visibleItems)}%)`,
-              }}
+              className={`flex ${animate ? "transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]" : ""}`}
+              style={{ transform: `translateX(-${index * (100 / visibleItems)}%)` }}
             >
               {slides.map((post, slideIndex) => (
                 <article
@@ -124,20 +98,17 @@ export default function BlogPreview() {
                     <p className="mb-2 text-xs text-gray-500 md:text-sm">
                       {post.date} | {post.author}
                     </p>
-
                     <h3 className="mb-3 line-clamp-2 text-base font-semibold text-gray-900 md:text-lg">
                       {post.title}
                     </h3>
-
                     <p className="mb-6 line-clamp-3 text-sm text-gray-600 md:text-base">
                       {post.excerpt}
                     </p>
-
                     <Link
                       href={post.href}
                       className="inline-flex items-center font-medium text-blue-800 hover:text-orange-500 hover:underline"
                     >
-                      Read more <span className="ml-1">-&gt;</span>
+                      {t("blog", "readMore")}
                     </Link>
                   </div>
                 </article>
@@ -149,17 +120,13 @@ export default function BlogPreview() {
             onClick={prev}
             className="absolute -left-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/80 p-2 shadow-md transition-all hover:bg-orange-500 hover:text-white focus:outline-none md:left-2 md:bg-sky-200"
             aria-label="Previous slide"
-          >
-            {"<"}
-          </button>
+          >{"<"}</button>
 
           <button
             onClick={next}
             className="absolute -right-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/80 p-2 shadow-md transition-all hover:bg-orange-500 hover:text-white focus:outline-none md:right-2 md:bg-sky-200"
             aria-label="Next slide"
-          >
-            {">"}
-          </button>
+          >{">"}</button>
         </div>
 
         <div className="mt-10 text-center md:mt-14">
@@ -167,7 +134,7 @@ export default function BlogPreview() {
             href="/news"
             className="inline-block w-full rounded-xl bg-sky-300 px-8 py-4 font-semibold text-white transition hover:bg-orange-400 sm:w-auto"
           >
-            View All Articles
+            {t("blog", "viewAll")}
           </Link>
         </div>
       </div>

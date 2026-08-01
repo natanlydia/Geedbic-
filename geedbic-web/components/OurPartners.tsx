@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-
+import { useLanguage } from "@/src/context/LanguageContext";
 
 import jobCreation from "@/public/job-creation.png";
 import cbe from "@/public/cbe.png";
@@ -28,27 +28,24 @@ const partners = [
   { name: "Development Bank of Ethiopia", logo: dbe },
   { name: "First Consult", logo: firstConsult },
   { name: "Addis Ababa Chamber of Commerce", logo: aaccsa },
-  { name: "Tikus", logo: Tikus},
+  { name: "Tikus", logo: Tikus },
 ];
 
 export default function OurPartners() {
+  const { t } = useLanguage();
+
   return (
     <section className="w-full bg-white py-45 overflow-hidden">
-      
-      {/* Heading */}
       <div className="mx-auto max-w-7xl px-6 text-center">
         <h2 className="text-3xl font-bold text-gray-900 md:text-4xl">
-          Trusted by Our Partners
+          {t("partners", "heading")}
         </h2>
         <p className="mt-4 text-gray-600">
-          We proudly work with leading institutions shaping Ethiopia’s economy
+          {t("partners", "subheading")}
         </p>
       </div>
 
-      {/* Slider */}
       <div className="relative mt-16 overflow-hidden">
-        
-        {/* Fade edges */}
         <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-24 bg-gradient-to-r from-white to-transparent" />
         <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-24 bg-gradient-to-l from-white to-transparent" />
 

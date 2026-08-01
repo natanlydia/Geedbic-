@@ -1,11 +1,13 @@
 const express = require("express");
 
 const ServiceRequest = require("../models/ServiceRequest");
+const { formSubmitLimiter } = require("../middleware/rateLimiter");
 const { isValidEmail } = require("../utils/validation");
 
 const router = express.Router();
 
-router.post("/", async (request, response, next) => {
+// POST /api/requests  — rate limited to 10 submissions per IP per 15 min
+router.post("/", formSubmitLimiter, async (request, response, next) => {
   try {
     const fullName = request.body.fullName?.trim();
     const email = request.body.email?.trim().toLowerCase();
@@ -18,8 +20,7 @@ router.post("/", async (request, response, next) => {
 
     if (!fullName || !email || !service || !projectDescription) {
       return response.status(400).json({
-        error:
-          "Full name, email, service, and project description are required.",
+        error: "Full name, email, service, and project description are required.",
       });
     }
 

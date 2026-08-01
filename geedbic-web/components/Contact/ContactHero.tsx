@@ -1,7 +1,6 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { getApiBaseUrl } from "@/lib/api";
 import { useLanguage } from "@/src/context/LanguageContext";
 
 export default function ContactPage() {
@@ -18,7 +17,7 @@ export default function ContactPage() {
     setSubmitSuccess("");
 
     try {
-      const response = await fetch(`${getApiBaseUrl()}/contact`, {
+      const response = await fetch(`/api/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

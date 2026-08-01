@@ -2,7 +2,6 @@
 
 import { FormEvent, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { getApiBaseUrl } from "@/lib/api";
 import { useLanguage } from "@/src/context/LanguageContext";
 
 export default function RequestQuotePage() {
@@ -31,7 +30,7 @@ export default function RequestQuotePage() {
     setSubmitSuccess("");
 
     try {
-      const response = await fetch(`${getApiBaseUrl()}/requests`, {
+      const response = await fetch(`/api/requests`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

@@ -17,8 +17,8 @@ export default function Hero() {
             {t("hero", "headline")}
           </h1>
           <p className="mt-6 text-xl md:text-2xl text-black/80">
-            We advance your business with strategic and winning solutions<br />
-            through careful analysis and professional consulting services.
+            {t("hero", "subheadline1")}<br />
+            {t("hero", "subheadline2")}
           </p>
           <div className="mt-8 flex justify-center">
             <Link
